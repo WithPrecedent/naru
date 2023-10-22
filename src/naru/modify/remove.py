@@ -1,7 +1,7 @@
 """Tools that remove things from objects.
 
 Contents:
-    Dispatchers (tools that call other functions based on type passed):
+    General Tools (tools that call other functions based on type passed):
         drop_dunders: removes attributes or data from an item that begin with
             double underscores.
         drop_duplicates: removes duplicates from an item.
@@ -50,7 +50,6 @@ Contents:
         drop_suffix_from_tuple: drops a `str` suffix from a `tuple`-like object.
 
 To Do:
-
 
 """
 from __future__ import annotations

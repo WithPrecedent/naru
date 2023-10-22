@@ -1,7 +1,7 @@
 """Tools that add things to objects.
 
 Contents:
-    Dispatchers (tools that call other functions based on type passed):
+    General Tools (tools that call other functions based on type passed):
         add_prefix: adds a `str` prefix to an item.
         add_suffix: adds a `str` suffix to an item.
     Specific Tools:

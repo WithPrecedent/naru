@@ -20,7 +20,7 @@
 
 *naru (Japanese) なる: to become; to change; to attain*
 
-`naru` gives you tools to modify and transfrom Python data using a universal,
+`naru` gives you tools to modify and transfrom Python objects using a universal,
 intuitive syntax.
 
 ## Why use naru?
@@ -28,6 +28,17 @@ intuitive syntax.
 Rather than remembering every command and its parameters for modifying and
 transforming Python objects, you can simply import `naru` and use the same
 syntax and parameters for any supported modification or transforming command.
+`naru` is:
+
+* **Lightweight**: it has no dependencies and a miniscule memory footprint.
+* **Intuitive**: every function name uses obvious, readable terms (e.g.,
+  functions that add something uses the prefix "add", functions that remove
+  something use the prefix "drop", etc.).
+* **Flexible**: you can either call a general or specific function.
+  For example, as discussed below, to add a prefix to every `str` item in a
+  list-like object, you can call `add_prefix_to_list` or `add_prefix`. In the
+  latter case, the function detects the passed item is a `MutableSequence` and
+  calls the appropriate function.
 
 ## Getting started
 
@@ -41,18 +52,18 @@ pip install naru
 
 ### Usage
 
-
-In this readme and the package documentation:
+In this readme and the package documentation, these are the definitions of
+commonly used terms:
 
 * "converter": function that changes an item's type.
 * "modifier": function that changes an item, but not its type
-(although, in a couple cases, a `modifier` will produce more than 1 of the original type).
+(although, in a couple cases, a `modifier` will produce more than one of the original type).
 * "transformer": either a "converter" or "modifier".
 
-### Dispatchers vs Specific Tools
+### General vs Specific Tools
 
-`naru` supports Python's `singledispatch` system. That means you can call the
-generic function for transformation and it will call the
+`naru` supports Python's [`singledispatch`](https://peps.python.org/pep-0443/) system. That means you can call the
+general function for transformation and it will call the
 appropriate function based on the type of the first positional argument
 passed.[^1]
 
@@ -77,6 +88,10 @@ reliability and clarity in your code.
 
 ### Dispatchers
 
+The table below outlines the functionality of the general transformers (dispatchers),
+what types they support, and whether there is a recursive option for applying
+the function to nested objects as well.
+
 | name | effect | supported types | recursive option |
 | --- | --- | --- | --- |
 | `add_prefix` | Adds `prefix` to `item` with optional `divider` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
@@ -92,12 +107,18 @@ reliability and clarity in your code.
 | `separate` | Divides 1 object into *n* objects | `dict`, `list`, `str`, `tuple` | |
 | `snakify` | Changes text to snake case | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
 
-### Specific Modifiers
+You should feel confident using the general transformers as long as you pass a
+supported type or its generic equivalent (e.g. `MutableMapping` for `dict`). The
+only limitations would be if you have created a custom class that appears as
+multiple types or masks its underlying type. There are also a few specific
+functions (e.g. `add_slots` for `dataclasses`) for which there is no general
+transformer because only one datatype is possible. Nonetheless, `naru` supports
+direct access to all of the specific transformers used (rather than making them
+anonymous functions as most uses of dispatching do).
 
-The `dict` suffix to function names refers to the keys of a `dict`-like object.
-`values` refers to the values of a `dict`-like object. If the related dispatcher
-identifies a passed item as a MutableMapping, the `dict` (and not `values`)
-function is called.
+### Specific Transformers
+
+Each specific tool in `naru` follows a common syntax, outlined below:
 
 | | `dict` | `list` | `object` | `set` | `str` | `tuple` | `values` |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -115,6 +136,16 @@ function is called.
 | `separate_` | ✅ | ✅ | | | ✅ | ✅ | ✅ |
 | `snakify_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
 
+The `dict` suffix to function names refers to the keys of a `dict`-like object.
+`values` refers to the values of a `dict`-like object. If the related dispatcher
+identifies a passed item as a MutableMapping, the `dict` (and not `values`)
+function is called. Thus, changing values in a `dict`-like objects is the one
+instance when you must call the specific transformer instead of the general one.
+
+`object`, as a suffix is inclusive of any class, instance, or module other than
+the other listed types. This is because many of the same underlying commands
+(such as `getattr` work in the same manner across those data types).
+
 ## Contributing
 
 Contributors are always welcome. Feel free to grab an [issue](https://www.github.com/WithPrecedent/naru/issues) to work on or make a suggested improvement. If you wish to contribute, please read the [Contribution Guide](https://www.github.com/WithPrecedent/naru/contributing.md) and [Code of Conduct](https://www.github.com/WithPrecedent/naru/code_of_conduct.md).
@@ -126,6 +157,9 @@ Contributors are always welcome. Feel free to grab an [issue](https://www.github
 
 ## Acknowledgments
 
+I would like to thank the University of Kansas School of Law for tolerating and
+supporting this law professor's coding efforts, an endeavor which is well
+outside the typical scholarly activities in the discipline.
 
 ## License
 
