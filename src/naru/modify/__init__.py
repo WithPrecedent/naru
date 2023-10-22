@@ -1,4 +1,4 @@
-"""Python tools for transforming and modifying objects."""
+"""Python tools for modifying objects."""
 
 from __future__ import annotations
 

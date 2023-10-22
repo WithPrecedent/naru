@@ -1,5 +1,9 @@
 # naru
 
+<p align="center">
+<img src="https://github.com/WithPrecedent/wonka/blob/main/docs/images/logo.png" alt="logo" style="width:250px;"/>
+</p>
+
 | | |
 | --- | --- |
 | Version | [![PyPI Latest Release](https://img.shields.io/pypi/v/naru.svg?style=for-the-badge&color=steelblue&label=PyPI&logo=PyPI&logoColor=yellow)](https://pypi.org/project/naru/) [![GitHub Latest Release](https://img.shields.io/github/v/tag/WithPrecedent/naru?style=for-the-badge&color=navy&label=GitHub&logo=github)](https://github.com/WithPrecedent/naru/releases)
@@ -14,17 +18,18 @@
 
 ## What is naru?
 
-[TODO: Brief summary of the project]
+*naru (Japanese) なる: to become; to change; to attain*
+
+`naru` gives you tools to modify and transfrom Python data using a universal,
+intuitive syntax.
 
 ## Why use naru?
 
-[TODO: Features and reasons to use the project (and, possibly, not to use it)]
+Rather than remembering every command and its parameters for modifying and
+transforming Python objects, you can simply import `naru` and use the same
+syntax and parameters for any supported modification or transforming command.
 
 ## Getting started
-
-### Requirements
-
-[TODO: List any OS or other restrictions and pre-installation dependencies]
 
 ### Installation
 
@@ -36,7 +41,74 @@ pip install naru
 
 ### Usage
 
-[TODO: Describe common use cases, with possible example(s)]
+
+In this readme and the package documentation:
+
+* "converter": function that changes an item's type.
+* "modifier": function that changes an item, but not its type
+(although, in a couple cases, a `modifier` will produce more than 1 of the original type).
+* "transformer": either a "converter" or "modifier".
+
+### Dispatchers vs Specific Tools
+
+`naru` supports Python's `singledispatch` system. That means you can call the
+generic function for transformation and it will call the
+appropriate function based on the type of the first positional argument
+passed.[^1]
+
+Alternatively, every function called by `naru`'s dispatchers is also callable
+directly using a straightforward syntax. For example,
+to add a string prefix to every item in a `list` (or `list`-like object), you could call:
+
+```python
+add_prefix(your_list, prefix, divider) # divider is optional
+```
+
+or:
+
+```python
+add_prefix_to_list(your_list, prefix, divider) # divider is optional
+```
+
+The dispatchers are just a convenience for shorter calls and require you to
+remember less verbiage. However, the specific functions are also included for
+effectuate greater
+reliability and clarity in your code.
+
+### Dispatchers
+
+| name | effect | supported types | recursive option |
+| --- | --- | --- | --- |
+| `add_prefix` | Adds `prefix` to `item` with optional `divider` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `add_suffix` | Adds `suffix` to `item` with optional `divider` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `capitalify` | Changes text to capital case | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `cleave` | Divides 1 object into 2 objects | `dict`, `list`, `str`, `tuple` | |
+| `drop_dunders` | Drops items that begin with 2 underscores | `dict`, `list`, `object`, `str`, `tuple` | |
+| `drop_duplicates` | Drops duplicate items | `list`, `str`, `tuple` | |
+| `drop_dunders` | Drops items that begin with at least 1 underscore | `dict`, `list`, `object`, `str`, `tuple` | |
+| `drop_prefix` | Drops `suffix` from `item` with optional `divider` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `drop_substring` |  Drops `substring` from `item` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `drop_suffix` | Adds `suffix` from `item` with optional `divider` | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+| `separate` | Divides 1 object into *n* objects | `dict`, `list`, `str`, `tuple` | |
+| `snakify` | Changes text to snake case | `dict`, `list`, `set`, `str`, `tuple` | ✅ |
+
+### Specific Modifiers
+
+| | `dict` | `list` | `object` | `set` | `str` | `tuple` |
+| --- | --- | --- | --- | --- | --- | --- |
+| `add_prefix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `add_slots_` | | | ✅ | | | |
+| `add_suffix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `capitalify_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `cleave_` | ✅ | ✅ | | | ✅ | ✅ |
+| `drop_dunders_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `drop_duplicates_from_` | | ✅ | | | ✅ | ✅ |
+| `drop_prefix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `drop_privates_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `drop_substring_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `drop_suffix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+| `separate_` | ✅ | ✅ | | | ✅ | ✅ |
+| `snakify_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
 
 ## Contributing
 
@@ -44,12 +116,16 @@ Contributors are always welcome. Feel free to grab an [issue](https://www.github
 
 ## Similar Projects
 
-[TODO: If they exist, it is always nice to acknowledge other similar efforts]
+* **`itertools`**:
+* **`more-itertools`**:
 
 ## Acknowledgments
 
-[TODO: Mention any people or organizations that warrant a special acknowledgment]
 
 ## License
 
 Use of this repository is authorized under the [Apache Software License 2.0](https://www.github.com/WithPrecedent/naru/blog/main/LICENSE).
+
+[^1]: Python's `singlddispatch` only supports dispatching based on the first
+    positional argument. Because `naru` was designed to be lightweight, it uses
+    this limited system rather than relying on a more sophisticated dispatching package.

@@ -17,7 +17,10 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Topic :: Software Development"]
-keywords = []
+keywords = [
+    "convert",
+    "modify",
+    "transform",]
 dependencies = []
 
 [project.urls]
@@ -105,6 +108,7 @@ ignore = [
     "PLR1711", # Useless 'return' at the end of function
     "Q000",  # Single quotes found but double quotes preferred
     "RET505",  # Unnecessary `else` after `return` statement
+    "RET506",  # Unnecessary `else` after `raise` statement
     # "S0001",  # Use of assert detected
     "SLF001", # Private member accessed
     "TID252",  # Relative imports are banned
@@ -170,8 +174,6 @@ suppress-none-returning = true
 
 [tool.ruff.flake8-quotes]
 docstring-quotes = "double"
-inline-quotes = "single"
-multiline-quotes = "single"
 
 [tool.ruff.flake8-type-checking]
 exempt-modules = ["typing", "typing_extensions"]
