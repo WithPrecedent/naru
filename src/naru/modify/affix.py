@@ -1,4 +1,4 @@
-"""Tools that add text to objects.
+"""Tools that add things to objects.
 
 Contents:
     Dispatchers (tools that call other functions based on type passed):
@@ -360,24 +360,40 @@ def add_prefix_to_values(
             message = f'item is not a supported type for {__name__}',
             kind = 'dict')
 
-def add_slots(item: type[Any]) -> type[Any]:
+def add_slots(
+    item: type[dataclasses.dataclass],
+    raise_error: bool | configuration.MISSING = configuration.MISSING) -> (
+        type[dataclasses.dataclass]):
     """Adds slots to dataclass with default values.
+
+    This function is needed for those that want to use slots with Python
+    dataclasses. There is no native support. So, slots have to be added after
+    the fact (which cannot be done with ordinary Python classes).
 
     Derived from code here:
     https://gitquirks.com/ericvsmith/dataclasses/blob/master/dataclass_tools.py
 
     Args:
         item: dataclass to add slots to.
+        raise_error: whether to raise an error (True) or to return `item'
+            unmodified (False). Defaults to `configuration.MISSING`, which means 
+            the global setting for `_RAISE_ERROR` will be used.
 
     Returns:
-        Type[Any]: class with `__slots__` added.
+        dataclass with `__slots__` added.
 
     Raises:
-        TypeError: if `__slots__` is already in `item`.
+        TypeError: if `__slots__` is already in `item` and the raise error
+            settings is True.
 
     """
     if '__slots__' in item.__dict__:
-        raise TypeError(f'{item.__name__} already contains __slots__')
+        if raise_error is configuration.MISSING:
+            raise_error = configuration._RAISE_ERROR
+        if raise_error:
+            raise TypeError(f'{item.__name__} already contains __slots__')
+        else:
+            return item
     else:
         item_dict = dict(item.__dict__)
         field_names = tuple(f.name for f in dataclasses.fields(item))

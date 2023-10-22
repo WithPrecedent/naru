@@ -1,7 +1,7 @@
 # naru
 
 <p align="center">
-<img src="https://github.com/WithPrecedent/wonka/blob/main/docs/images/logo.png" alt="logo" style="width:250px;"/>
+<img src="https://github.com/WithPrecedent/naru/blob/main/docs/images/logo.png" alt="logo" style="width:250px;"/>
 </p>
 
 | | |
@@ -94,21 +94,26 @@ reliability and clarity in your code.
 
 ### Specific Modifiers
 
-| | `dict` | `list` | `object` | `set` | `str` | `tuple` |
-| --- | --- | --- | --- | --- | --- | --- |
-| `add_prefix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `add_slots_` | | | ✅ | | | |
-| `add_suffix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `capitalify_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `cleave_` | ✅ | ✅ | | | ✅ | ✅ |
-| `drop_dunders_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `drop_duplicates_from_` | | ✅ | | | ✅ | ✅ |
-| `drop_prefix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `drop_privates_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `drop_substring_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `drop_suffix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
-| `separate_` | ✅ | ✅ | | | ✅ | ✅ |
-| `snakify_` | ✅ | ✅ | | ✅ | ✅ | ✅ |
+The `dict` suffix to function names refers to the keys of a `dict`-like object.
+`values` refers to the values of a `dict`-like object. If the related dispatcher
+identifies a passed item as a MutableMapping, the `dict` (and not `values`)
+function is called.
+
+| | `dict` | `list` | `object` | `set` | `str` | `tuple` | `values` |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `add_prefix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `add_slots_` | | | ✅ | | | | |
+| `add_suffix_to_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `capitalify_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `cleave_` | ✅ | ✅ | | | ✅ | ✅ | ✅ |
+| `drop_dunders_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `drop_duplicates_from_` | | ✅ | | | ✅ | ✅ | |
+| `drop_prefix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `drop_privates_from_` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `drop_substring_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `drop_suffix_from_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
+| `separate_` | ✅ | ✅ | | | ✅ | ✅ | ✅ |
+| `snakify_` | ✅ | ✅ | | ✅ | ✅ | ✅ | ✅ |
 
 ## Contributing
 

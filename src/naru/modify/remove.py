@@ -1,4 +1,4 @@
-"""Tools that remove text from objects.
+"""Tools that remove things from objects.
 
 Contents:
     Dispatchers (tools that call other functions based on type passed):
