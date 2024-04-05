@@ -75,9 +75,8 @@ def str_to_dict(item: str) -> MutableMapping[Hashable, Any]:
         converted = ast.literal_eval(item)
         if isinstance(converted, MutableMapping):
             return converted
-        else:
-            message = f'{item} could not be converted to a dict'
-            raise TypeError(message)
+        message = f'{item} could not be converted to a dict'
+        raise TypeError(message)
     except ValueError as error:
         message = f'{item} could not be converted to a dict'
         raise ValueError(message) from error

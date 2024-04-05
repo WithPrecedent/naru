@@ -95,10 +95,7 @@ def cleave_str(
 
     """
     if divider in item:
-        if return_last:
-            suffix = item.split(divider)[-1]
-        else:
-            suffix = item.split(divider)[0]
+        suffix = item.split(divider)[-1] if return_last else item.split(divider)[0]
         prefix = item[:-len(suffix) - 1]
     elif raise_error:
         raise ValueError(f'{divider} is not in {item}')

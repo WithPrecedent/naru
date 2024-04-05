@@ -2,17 +2,17 @@
 
 # Project Information
 
-site_name: naru
+site_name: modify
 site_description: Python tools for transforming and modifying objects
-site_url: https://WithPrecedent.github.io/naru
-repo_name: WithPrecedent/naru
-repo_url: https://github.com/WithPrecedent/naru
+site_url: https://WithPrecedent.github.io/modify
+repo_name: WithPrecedent/modify
+repo_url: https://github.com/WithPrecedent/modify
 watch: [
   mkdocs.yml,
   README.md,
   CONTRIBUTING.md,
   CHANGELOG.md,
-  src/naru]
+  src/modify]
 copyright: Copyright, 2023 Corey Rayburn Yung
 docs_dir: docs
 
@@ -154,4 +154,4 @@ extra:
   - icon: fontawesome/brands/github
     link: https://github.com/WithPrecedent
   - icon: fontawesome/brands/python
-    link: https://pypi.org/project/naru/
+    link: https://pypi.org/project/modify/

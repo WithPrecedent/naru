@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 
-def test_naru() -> None:
+def test_modify() -> None:
     return
 
 if __name__ == '__main__':
-    test_naru()
+    test_modify()

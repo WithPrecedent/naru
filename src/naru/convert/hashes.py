@@ -8,15 +8,14 @@ Contents:
 To Do:
 
 """
+
 from __future__ import annotations
 
 import functools
 from collections.abc import Hashable, MutableMapping, MutableSequence
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-if TYPE_CHECKING:
-    from ..configuration import MISSING
-
+from ..configuration import MISSING
 
 """ General Converter """
 

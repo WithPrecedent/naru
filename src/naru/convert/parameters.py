@@ -44,56 +44,13 @@ To Do:
 """
 from __future__ import annotations
 
-import ast
-import collections
-import functools
-import inspect
-import itertools
-import pathlib
-from collections.abc import (
-    Hashable,
-    Iterable,
-    MutableMapping,
-    MutableSequence,
-    Sequence,
-)
 from typing import TYPE_CHECKING, Any
 
-from ..modify import modify
-
 if TYPE_CHECKING:
-    import datetime
+    from collections.abc import Hashable
 
 
 """ General Converters """
-
-def instancify(item: type[Any] | object, **kwargs: Any) -> Any:
-    """Returns `item` as an instance with `kwargs` as parameters/attributes.
-
-    If `item` is already an instance, kwargs are added as attributes to the
-    existing `item`. This will overwrite any existing attributes of the same
-    name.
-
-    Args:
-        item (Type[Any] | object)): class to make an instance out of by
-            passing kwargs or an instance to add kwargs to as attributes.
-
-    Raises:
-        TypeError: if `item` is neither a class nor instance.
-
-    Returns:
-        object: a class instance with `kwargs` as attributes or passed as
-            parameters (if `item` is a class).
-
-    """
-    if inspect.isclass(item):
-        return item(**kwargs)
-    elif isinstance(item, object):
-        for key, value in kwargs.items():
-            setattr(item, key, value)
-        return item
-    else:
-        raise TypeError('item must be a class or class instance')
 
 def kwargify(item: type[Any], /, args: tuple[Any]) -> dict[Hashable, Any]:
     """Converts args to kwargs.
@@ -114,69 +71,3 @@ def kwargify(item: type[Any], /, args: tuple[Any]) -> dict[Hashable, Any]:
         raise ValueError('There are too many args for item')
     else:
         return dict(zip(annotations, args))
-
-@functools.singledispatch
-def stringify(item: Any, /, default: Any | None = None) -> Any:
-    """Converts `item` to a str from a Sequence.
-
-    Args:
-        item (Any): item to convert to a str from a list if it is a list.
-        default (Any): value to return if `item` is equivalent to a null
-            value when passed. Defaults to None.
-
-    Raises:
-        TypeError: if `item` is not a str or list-like object.
-
-    Returns:
-        Any: str, if item was a list, None or the default value if a null value
-            was passed, or the item as it was passed if there previous two
-            conditions don't appply.
-
-    """
-    if item is None:
-        if default is None:
-            return ''
-        elif default in ['None', 'none']:
-            return None
-        else:
-            return default
-    elif isinstance(item, str):
-        return item
-    elif isinstance(item, Sequence):
-        return ', '.join(item)
-    else:
-        raise TypeError('item must be str or a sequence')
-
-def typify(item: str) -> Sequence[Any] | int | float | bool | str:
-    """Converts stings to appropriate, supported datatypes.
-
-    The method converts strings to list (if ', ' is present), int, float,
-    or bool datatypes based upon the content of the string. If no
-    alternative datatype is found, the item is returned in its original
-    form.
-
-    Args:
-        item (str): string to be converted to appropriate datatype.
-
-    Returns:
-        Sequence[Any] | int | float | bool | str: converted item.
-
-    """
-    if not isinstance(item, str):
-        return item
-    else:
-        try:
-            return int(item)
-        except ValueError:
-            try:
-                return float(item)
-            except ValueError:
-                if item.lower() in ['true', 'yes']:
-                    return True
-                elif item.lower() in ['false', 'no']:
-                    return False
-                elif ', ' in item:
-                    item = item.split(', ')
-                    return [typify(i) for i in item]
-                else:
-                    return item

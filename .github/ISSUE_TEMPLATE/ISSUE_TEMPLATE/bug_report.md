@@ -29,7 +29,7 @@ If applicable, add screenshots to help explain your problem.
 
 **System (please complete the following information):**
 
-- `naru` version: [e.g. 0.2.1]
+- `modify` version: [e.g. 0.2.1]
 - Python version: [e.g. 3.9]
 - OS: [Windows/Linux/MacOS]
 

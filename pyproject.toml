@@ -1,7 +1,7 @@
 # Project packaging rules and instructions
 
 [project]
-name = "naru"
+name = "modify"
 description = "Python tools for transforming and modifying objects"
 authors = [{name = "Corey Rayburn Yung", email = "coreyrayburnyung@gmail.com"}]
 license = {text = "Apache Software License 2.0"}
@@ -24,10 +24,10 @@ keywords = [
 dependencies = []
 
 [project.urls]
-Documentation = "https://WithPrecedent.github.io/naru"
-Repository = "https://github.com/WithPrecedent/naru"
-Issues = "https://github.com/WithPrecedent/naru/issues"
-Changelog = "https://WithPrecedent.github.io/naru/changelog"
+Documentation = "https://WithPrecedent.github.io/modify"
+Repository = "https://github.com/WithPrecedent/modify"
+Issues = "https://github.com/WithPrecedent/modify/issues"
+Changelog = "https://WithPrecedent.github.io/modify/changelog"
 
 [build-system]
 requires = ["pdm-backend"]
@@ -67,7 +67,7 @@ tests = [
 
 [tool.pdm.version]
 source = "file"
-path = "src/naru/__init__.py"
+path = "src/modify/__init__.py"
 
 [tool.pytest.ini_options]
 addopts = "--showlocals"
@@ -183,7 +183,7 @@ ignore-variadic-names = true
 
 [tool.ruff.isort]
 case-sensitive = true
-known-first-party = ["naru"]
+known-first-party = ["modify"]
 required-imports = ["from __future__ import annotations"]
 split-on-trailing-comma = false
 

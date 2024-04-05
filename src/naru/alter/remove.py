@@ -57,12 +57,9 @@ from __future__ import annotations
 import functools
 from collections.abc import Mapping, MutableSequence
 from collections.abc import Set as AbstractSet
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
-from .. import returns
-
-if TYPE_CHECKING:
-    from .. import configuration
+from .. import configuration, returns
 
 """ Dispatchers """
 
@@ -130,13 +127,12 @@ def drop_prefix(
 
     Raises:
         TypeError: if no registered function supports the type of `item`.
-returns._process_return(
-        raise
+
     """
-    return _error = raise_error,
+    return returns._process_return(
+        raise_error = raise_error,
         message = f'item is not a supported type for {__name__}',
         item = item)
-
 
 @functools.singledispatch
 def drop_privates(item: Any, /) -> Any:
@@ -289,11 +285,7 @@ def drop_prefix_from_dict(
     contents = {
         drop_prefix(item = k, prefix = prefix, divider = divider): v
         for k, v in item.items()}
-    if isinstance(item, dict):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, dict) else item.__class__(contents)
 
 @drop_prefix.register(MutableSequence)
 def drop_prefix_from_list(
@@ -314,11 +306,7 @@ def drop_prefix_from_list(
     """
     contents = [
         drop_prefix(item = i, prefix = prefix, divider = divider) for i in item]
-    if isinstance(item, list):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, list) else item.__class__(contents)
 
 @drop_prefix.register(AbstractSet)
 def drop_prefix_from_set(
@@ -339,11 +327,7 @@ def drop_prefix_from_set(
     """
     contents = {
         drop_prefix(item = i, prefix = prefix, divider = divider) for i in item}
-    if isinstance(item, set):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, set) else item.__class__(contents)
 
 @drop_prefix.register(tuple)
 def drop_prefix_from_tuple(
@@ -363,8 +347,7 @@ def drop_prefix_from_tuple(
 
     """
     return tuple(
-        [drop_prefix(item = i, prefix = prefix, divider = divider)
-         for i in item])
+        drop_prefix(item=i, prefix=prefix, divider=divider) for i in item)
 
 @drop_privates.register(Mapping)
 def drop_privates_dict(item: Mapping[str, Any], /) -> Mapping[str, Any]:
@@ -426,10 +409,7 @@ def drop_substring_from_str(item: str, /, substring: str) -> str:
         str: modified str.
 
     """
-    if substring in item:
-        return item.replace(substring, '')
-    else:
-        return item
+    return item.replace(substring, '') if substring in item else item
 
 @drop_substring.register(Mapping)
 def drop_substring_from_dict(
@@ -448,11 +428,7 @@ def drop_substring_from_dict(
     contents = {
         drop_substring(item = k, substring = substring): v
         for k, v in item.items()}
-    if isinstance(item, dict):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, dict) else item.__class__(contents)
 
 @drop_substring.register(MutableSequence)
 def drop_substring_from_list(
@@ -469,11 +445,7 @@ def drop_substring_from_list(
 
     """
     contents = [drop_substring(item = i, substring = substring) for i in item]
-    if isinstance(item, list):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, list) else item.__class__(contents)
 
 @drop_substring.register(AbstractSet)
 def drop_substring_from_set(item: AbstractSet[str], /, substring: str) -> AbstractSet[str]:
@@ -488,11 +460,7 @@ def drop_substring_from_set(item: AbstractSet[str], /, substring: str) -> Abstra
 
     """
     contents = {drop_substring(item = i, substring = substring) for i in item}
-    if isinstance(item, set):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, set) else item.__class__(contents)
 
 @drop_substring.register(tuple)
 def drop_substring_from_tuple(
@@ -508,8 +476,7 @@ def drop_substring_from_tuple(
         tuple[str, ...]: modified tuple.
 
     """
-    return tuple(
-        [drop_substring(item = i, substring = substring) for i in item])
+    return tuple(drop_substring(item = i, substring = substring) for i in item)
 
 @functools.singledispatch
 def drop_suffix(item: Any, /, suffix: str, divider: str = '') -> Any:
@@ -541,10 +508,7 @@ def drop_suffix_from_str(item: str, /, suffix: str, divider: str = '') -> str:
 
     """
     suffix = ''.join([suffix, divider])
-    if item.endswith(suffix):
-        return item.removesuffix(suffix)
-    else:
-        return item
+    return item.removesuffix(suffix) if item.endswith(suffix) else item
 
 @drop_suffix.register(Mapping)
 def drop_suffix_from_dict(
@@ -564,11 +528,7 @@ def drop_suffix_from_dict(
     contents = {
         drop_suffix(item = k, suffix = suffix, divider = divider): v
         for k, v in item.items()}
-    if isinstance(item, dict):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, dict) else item.__class__(contents)
 
 @drop_suffix.register(MutableSequence)
 def drop_suffix_from_list(
@@ -587,11 +547,7 @@ def drop_suffix_from_list(
     """
     contents = [
         drop_suffix(item = i, suffix = suffix, divider = divider) for i in item]
-    if isinstance(item, list):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, list) else item.__class__(contents)
 
 @drop_suffix.register(AbstractSet)
 def drop_suffix_from_set(
@@ -610,11 +566,7 @@ def drop_suffix_from_set(
     """
     contents = {
         drop_suffix(item = i, suffix = suffix, divider = divider) for i in item}
-    if isinstance(item, set):
-        return contents
-    else:
-        vessel = item.__class__
-        return vessel(contents)
+    return contents if isinstance(item, set) else item.__class__(contents)
 
 @drop_suffix.register(tuple)
 def drop_suffix_from_tuple(
@@ -632,5 +584,4 @@ def drop_suffix_from_tuple(
 
     """
     return tuple(
-        [drop_suffix(item = i, suffix = suffix, divider = divider)
-         for i in item])
+        drop_suffix(item=i, suffix=suffix, divider=divider) for i in item)

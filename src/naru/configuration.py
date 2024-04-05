@@ -1,7 +1,7 @@
-"""Global settings for `naru`.
+"""Global settings for `modify`.
 
 Contents:
-    add_supported_type: adds a supported return type to `naru`.
+    add_supported_type: adds a supported return type to `modify`.
     set_default_value: sets the global default for `kind` to `value`.
     set_raise_error: sets the global default setting of whether to raise errors.
     set_recursive: sets the global default setting for whether to apply a tool

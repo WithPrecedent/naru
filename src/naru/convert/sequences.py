@@ -45,18 +45,9 @@ To Do:
 from __future__ import annotations
 
 import ast
-import collections
 import functools
-import inspect
-import itertools
 import pathlib
-from collections.abc import (
-    Hashable,
-    Iterable,
-    MutableMapping,
-    MutableSequence,
-    Sequence,
-)
+from collections.abc import Iterable, MutableSequence
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -249,7 +240,7 @@ def to_path(item: Any, /) -> pathlib.Path:
             f'item cannot be converted because it is an unsupported type: '
             f'{type(item).__name__}')
 
-@pathlibify.register
+@to_path.register
 def str_to_path(item: str, /) -> pathlib.Path:
     """[summary]
 
